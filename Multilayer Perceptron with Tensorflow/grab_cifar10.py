@@ -25,10 +25,10 @@ def get_data():
     training_data = unpickle(data_dir + batch_name)
     test_data = unpickle(data_dir + test_name)
 
-    train_imgs = training_data[b"data"]
+    train_imgs = np.transpose(training_data[b"data"])
     train_labels = training_data[b"labels"]
 
-    test_imgs = test_data[b"data"]
+    test_imgs = np.transpose(test_data[b"data"])
     test_labels = test_data[b"labels"]
 
     return {"training_images" : train_imgs, "training_labels" : train_labels, "test_images" : test_imgs, "test_labels" : test_labels}
