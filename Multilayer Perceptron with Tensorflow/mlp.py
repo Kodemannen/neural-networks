@@ -5,10 +5,10 @@ from sys import exit as ex
 
 data = grab_cifar10.get_data()
 
-training_input = data["training_images"]
+training_input = data["training_images"] / 255.
 training_labels = data["training_labels"]
 
-test_input = data["test_images"]
+test_input = data["test_images"] / 255.
 test_labels = data["test_labels"]
 
 #training_input[:,j] er input nr j 
