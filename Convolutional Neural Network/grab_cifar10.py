@@ -3,6 +3,9 @@
 ##########################
 import numpy as np
 import glob, os
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import sys
 
 def unpickle(file):
     """
@@ -34,7 +37,13 @@ def make_data_into_one_batch():
             
             training_data = unpickle(data_dir + filename)
 
-            train_imgs = np.transpose(training_data[b"data"])
+            train_imgs = training_data[b"data"]
+
+            #print(train_imgs.shape)
+            #plt.imshow(train_imgs[0].reshape(3,32,32).T)
+            #plt.show()
+            #sys.exit("asdasd")
+
             train_labels = training_data[b"labels"]
 
             data.append(train_imgs)
@@ -51,8 +60,8 @@ def make_data_into_one_batch():
     labels = np.array(labels)
     print(labels.shape)
     test_data = unpickle(data_dir + test_name) 
-    test_imgs = np.transpose(test_data[b"data"])
-    test_labels = test_data[b"labels"]
+    test_imgs = test_data[b"data"]
+    test_labels = np.array(test_data[b"labels"])
     
     savearray = np.array([data, labels, test_imgs, test_labels])
     
@@ -60,6 +69,8 @@ def make_data_into_one_batch():
     
     return {"training_images" : data, "training_labels" : labels, "test_images" : test_imgs, "test_labels" : test_labels}
 
+
+
 if __name__ == "__main__":
     None
-    #make_data_into_one_batch()
+    make_data_into_one_batch()

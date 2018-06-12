@@ -36,19 +36,23 @@ global_step = tf.Variable(initial_value=0, trainable=False, name="global_step") 
 # Setting up the structure:
 node_structure = [input_nodes, 1024, 256, 64, classes]
 learning_rate = 5e-3
-training_steps = 10000
+training_steps = 10
 batch_size =200
 
 
 a = data
 for i in range(len(node_structure)-1):
     layer_name = "layer%s" % i
-    with tf.variable_scope(layer_name):
+    with tf.variable_scope(layer_name, reuse=tf.AUTO_REUSE):
         #W = tf.get_variable(name="W", initializer=tf.random_normal(shape=(node_structure[i+1], node_structure[i])))
         #b = tf.get_variable(name="b", initializer= tf.random_normal(shape=(node_structure[i+1],1)))
 
         W = tf.get_variable(name="W", shape=(node_structure[i+1], node_structure[i]), initializer=tf.contrib.layers.xavier_initializer())
         b = tf.get_variable(name="b", shape=(node_structure[i+1],1), initializer= tf.contrib.layers.xavier_initializer())
+
+        # Experimenting with initializing all weights to the same number:
+        #W = tf.get_variable(name="W", shape=(node_structure[i+1], node_structure[i]), initializer=tf.ones_initializer)
+        #b = tf.get_variable(name="b", shape=(node_structure[i+1],1), initializer= tf.ones_initializer)
 
 
         z = tf.matmul(W,a, name="matmul") + b
@@ -95,8 +99,11 @@ with tf.Session() as sess:
         
         batch_input = training_input[:,batch_indices]
         batch_labels = training_labels_onehots[:,batch_indices]
- 
 
+        print(W.eval())
+        print("  ")
+        print("  ")
+        print("  ")
         loss_val, accuracy_val, _ = sess.run([loss, accuracy, training_operation], feed_dict={data: batch_input, label_vec: batch_labels})
         
         train_loss[i] = loss_val
@@ -121,9 +128,9 @@ plt.legend()
 plt.show()
 
 
-plt.plot(np.linspace(0,training_steps, training_steps//100),test_loss_list,label="test loss")
-plt.legend()
-plt.show()
-plt.plot(np.linspace(0,training_steps, training_steps//100),test_accuracy_list,label="test accuracy")
-plt.legend()
-plt.show()
+# plt.plot(np.linspace(0,training_steps, training_steps//100),test_loss_list,label="test loss")
+# plt.legend()
+# plt.show()
+# plt.plot(np.linspace(0,training_steps, training_steps//100),test_accuracy_list,label="test accuracy")
+# plt.legend()
+# plt.show()
