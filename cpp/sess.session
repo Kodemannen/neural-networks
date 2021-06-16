@@ -1,0 +1,95 @@
+let SessionLoad = 1
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~/repos/game-of-life
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +52 main.cpp
+badd +34 ~/repos/useful-stuff/topics/cpp/test.cpp
+badd +30 compile.sh
+badd +310 ~/repos/useful-stuff/dotfiles/bashaliases.sh
+badd +2 man://write(2)
+badd +12 ~/repos/useful-stuff/topics/python/test.py
+badd +1 ~/repos
+badd +2 pop.txt
+badd +118 ~/repos/useful-stuff/dotfiles/init.vim
+badd +27 plot.py
+badd +191 ~/repos/useful-stuff/topics/python/notes.py
+badd +47 ~/repos/useful-stuff/topics/other/tekster.txt
+badd +1 ~/repos/useful-stuff/topics/music/music.tex
+badd +88 ~/repos/useful-stuff/topics/music/notes.tex
+badd +392 ~/repos/useful-stuff/topics/other/ideas.txt
+badd +20 ~/.bashrc
+badd +40 .gitignore
+badd +2 term://.//6965:/bin/bash
+badd +1 term://.//114:/bin/bash
+argglobal
+%argdel
+$argadd main.cpp
+edit main.cpp
+set splitbelow splitright
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+set nosplitbelow
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 34 + 26) / 52)
+exe '2resize ' . ((&lines * 15 + 26) / 52)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 52 - ((22 * winheight(0) + 17) / 34)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+52
+normal! 019|
+wincmd w
+argglobal
+if bufexists("term://.//114:/bin/bash") | buffer term://.//114:/bin/bash | else | edit term://.//114:/bin/bash | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 1 - ((0 * winheight(0) + 7) / 15)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+exe '1resize ' . ((&lines * 34 + 26) / 52)
+exe '2resize ' . ((&lines * 15 + 26) / 52)
+tabnext 1
+if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 winminheight=1 winminwidth=1 shortmess=filnxtToOF
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
