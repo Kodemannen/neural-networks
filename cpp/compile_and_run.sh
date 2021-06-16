@@ -1,36 +1,22 @@
 #!/bin/sh
 
+rm outputfile > /dev/null 2>&1;
 
-#source ~/repos/useful-stuff/dotfiles/bashaliases.sh
 
-export DISPLAY=:0       # needed on WSL
+# needed for getting SFML to display stufff on WSL on Windows:
+export DISPLAY=:0
 
-echo "----------------------------------------"
-echo "deleting old files:"
-echo "  "
-rm outputfile > /dev/null 2>&1
 
-echo "----------------------------------------"
-echo "compiling:"
-echo "  "
-#g++ main.cpp -o writefile 
-
-# Compile with armadillo:
-g++ src/main.cpp -o outputfile -std=c++17 -O2 \
+# compile with both Armadillo and Eigen:
+#g++  main.cpp src/basicNN.cpp headers/basicNN.h \
+#g++  main.cpp basicNN.cpp headers/basicNN.h \
+g++  main.cpp src/basicNN.cpp  \
+    -o outputfile -std=c++17 -O2 \
     -larmadillo \
+    -I /usr/include/eigen3/ \
     -lsfml-graphics -lsfml-window -lsfml-system \
     -lglut -lGLU -lGL
-#      -I /usr/include/eigen3/ \        # if with eigen
 
+# run:
+./outputfile ;
 
-
-
-#g++ main.cpp -o writefile
-echo "----------------------------------------"
-echo "output:"
-echo "  "
-./outputfile 
-
-# plot in python:
-#python3 plot.py
-#python3 animate.py

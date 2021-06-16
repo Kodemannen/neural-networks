@@ -2,35 +2,32 @@ let SessionLoad = 1
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/repos/game-of-life
+cd ~/repos/neural-networks/cpp
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +52 main.cpp
-badd +34 ~/repos/useful-stuff/topics/cpp/test.cpp
-badd +30 compile.sh
-badd +310 ~/repos/useful-stuff/dotfiles/bashaliases.sh
-badd +2 man://write(2)
-badd +12 ~/repos/useful-stuff/topics/python/test.py
-badd +1 ~/repos
-badd +2 pop.txt
-badd +118 ~/repos/useful-stuff/dotfiles/init.vim
-badd +27 plot.py
-badd +191 ~/repos/useful-stuff/topics/python/notes.py
-badd +47 ~/repos/useful-stuff/topics/other/tekster.txt
-badd +1 ~/repos/useful-stuff/topics/music/music.tex
-badd +88 ~/repos/useful-stuff/topics/music/notes.tex
-badd +392 ~/repos/useful-stuff/topics/other/ideas.txt
-badd +20 ~/.bashrc
-badd +40 .gitignore
-badd +2 term://.//6965:/bin/bash
-badd +1 term://.//114:/bin/bash
+badd +7 basicNN.cpp
+badd +6 main.cpp
+badd +1 sess.session
+badd +2 basicNN.h
+badd +15 compile_and_run.sh
 argglobal
 %argdel
-$argadd main.cpp
 edit main.cpp
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 wincmd _ | wincmd |
 split
 1wincmd k
@@ -41,8 +38,27 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 34 + 26) / 52)
-exe '2resize ' . ((&lines * 15 + 26) / 52)
+exe 'vert 1resize ' . ((&columns * 31 + 105) / 211)
+exe '2resize ' . ((&lines * 25 + 27) / 54)
+exe 'vert 2resize ' . ((&columns * 179 + 105) / 211)
+exe '3resize ' . ((&lines * 26 + 27) / 54)
+exe 'vert 3resize ' . ((&columns * 89 + 105) / 211)
+exe '4resize ' . ((&lines * 13 + 27) / 54)
+exe 'vert 4resize ' . ((&columns * 89 + 105) / 211)
+exe '5resize ' . ((&lines * 12 + 27) / 54)
+exe 'vert 5resize ' . ((&columns * 89 + 105) / 211)
+argglobal
+enew
+file NERD_tree_1
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+wincmd w
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -53,15 +69,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 52 - ((22 * winheight(0) + 17) / 34)
+let s:l = 7 - ((3 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-52
-normal! 019|
+7
+normal! 0
 wincmd w
 argglobal
-if bufexists("term://.//114:/bin/bash") | buffer term://.//114:/bin/bash | else | edit term://.//114:/bin/bash | endif
+if bufexists("basicNN.cpp") | buffer basicNN.cpp | else | edit basicNN.cpp | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -70,15 +86,60 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 7) / 15)
+silent! normal! zE
+let s:l = 7 - ((6 * winheight(0) + 13) / 26)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+7
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 34 + 26) / 52)
-exe '2resize ' . ((&lines * 15 + 26) / 52)
+argglobal
+if bufexists("basicNN.h") | buffer basicNN.h | else | edit basicNN.h | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 2 - ((1 * winheight(0) + 6) / 13)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+2
+normal! 0
+wincmd w
+argglobal
+if bufexists("compile_and_run.sh") | buffer compile_and_run.sh | else | edit compile_and_run.sh | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 15 - ((6 * winheight(0) + 6) / 12)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+15
+normal! 05|
+wincmd w
+4wincmd w
+exe 'vert 1resize ' . ((&columns * 31 + 105) / 211)
+exe '2resize ' . ((&lines * 25 + 27) / 54)
+exe 'vert 2resize ' . ((&columns * 179 + 105) / 211)
+exe '3resize ' . ((&lines * 26 + 27) / 54)
+exe 'vert 3resize ' . ((&columns * 89 + 105) / 211)
+exe '4resize ' . ((&lines * 13 + 27) / 54)
+exe 'vert 4resize ' . ((&columns * 89 + 105) / 211)
+exe '5resize ' . ((&lines * 12 + 27) / 54)
+exe 'vert 5resize ' . ((&columns * 89 + 105) / 211)
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
