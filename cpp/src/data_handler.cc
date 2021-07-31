@@ -4,7 +4,6 @@
 #include <vector>
 #include "stdint.h"
 #include "stdio.h" 
-//#include "../include/data_handler.hpp"
 #include "data_handler.hpp"
 
 // constructor:
@@ -84,7 +83,6 @@ void data_handler::read_feature_labels(std::string path)
             if (fread(bytes, sizeof(bytes), 1, f))
             {
                 header[i] = convert_to_little_endian(bytes);
-                //header[i] = bytes[i];
             }
         }
         printf("Done getting label file header.\n");
@@ -203,17 +201,5 @@ std::vector<data *> * data_handler::get_validation_data()
 
 
 
-int main()
-{
-    std::cout << "successfull compilation compiled successfully" << std::endl; 
-
-    data_handler *dh = new data_handler();
-    dh->read_feature_vector("data/mnist/train-images-idx3-ubyte");
-    dh->read_feature_labels("data/mnist/train-labels-idx1-ubyte");
-    dh->split_data();
-    dh->count_classes();
-
-    return 0;
-}
 
 

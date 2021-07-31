@@ -7,18 +7,27 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +27 include/data.hpp
-badd +11 include/data_handler.hpp
-badd +1 src/data.cc
-badd +13 src/data_handler.cc
-badd +16 compile_and_run.sh
-badd +23 ~/repos/useful-stuff/topics/cpp/test.cpp
-badd +0 term://.//175:/bin/bash
+badd +30 include/data.hpp
+badd +32 include/data_handler.hpp
+badd +31 src/data.cc
+badd +205 src/data_handler.cc
+badd +18 compile_and_run.sh
+badd +5 ~/repos/useful-stuff/topics/cpp/test.cpp
 badd +19 ~/repos/useful-stuff/topics/cpp/compile_and_run.sh
+badd +48 term://.//1194:/bin/bash
+badd +1 ~/repos/useful-stuff/topics/sql/notes
+badd +340 ~/repos/useful-stuff/dotfiles/config.vim
+badd +210 ~/repos/useful-stuff/topics/linux/notes.sh
+badd +0 term://.//2237:/bin/bash
+badd +33 ~/repos/useful-stuff/topics/cpp/notes.cpp
+badd +49 term://.//6417:/bin/bash
+badd +1 src/main.cc
+badd +1 include/main.hpp
+badd +0 term://.//6449:/bin/bash
 argglobal
 %argdel
 set stal=2
-edit include/data_handler.hpp
+edit include/main.hpp
 set splitbelow splitright
 wincmd _ | wincmd |
 split
@@ -33,9 +42,9 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 19 + 25) / 51)
-exe '2resize ' . ((&lines * 18 + 25) / 51)
-exe '3resize ' . ((&lines * 9 + 25) / 51)
+exe '1resize ' . ((&lines * 16 + 26) / 52)
+exe '2resize ' . ((&lines * 21 + 26) / 52)
+exe '3resize ' . ((&lines * 10 + 26) / 52)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -46,11 +55,154 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 11 - ((10 * winheight(0) + 9) / 19)
+let s:l = 1 - ((0 * winheight(0) + 8) / 16)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-11
+1
+normal! 026|
+wincmd w
+argglobal
+if bufexists("src/main.cc") | buffer src/main.cc | else | edit src/main.cc | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 2 - ((0 * winheight(0) + 10) / 21)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+2
+normal! 0
+wincmd w
+argglobal
+if bufexists("term://.//6449:/bin/bash") | buffer term://.//6449:/bin/bash | else | edit term://.//6449:/bin/bash | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 1 - ((0 * winheight(0) + 5) / 10)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 055|
+wincmd w
+3wincmd w
+exe '1resize ' . ((&lines * 16 + 26) / 52)
+exe '2resize ' . ((&lines * 21 + 26) / 52)
+exe '3resize ' . ((&lines * 10 + 26) / 52)
+tabedit include/data.hpp
+set splitbelow splitright
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+2wincmd k
+wincmd w
+wincmd w
+set nosplitbelow
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 15 + 26) / 52)
+exe '2resize ' . ((&lines * 21 + 26) / 52)
+exe '3resize ' . ((&lines * 11 + 26) / 52)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 30 - ((1 * winheight(0) + 7) / 15)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+30
+normal! 0
+wincmd w
+argglobal
+if bufexists("src/data.cc") | buffer src/data.cc | else | edit src/data.cc | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 46 - ((15 * winheight(0) + 10) / 21)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+46
+normal! 0
+wincmd w
+argglobal
+if bufexists("term://.//2237:/bin/bash") | buffer term://.//2237:/bin/bash | else | edit term://.//2237:/bin/bash | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 57 - ((10 * winheight(0) + 5) / 11)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+57
+normal! 055|
+wincmd w
+exe '1resize ' . ((&lines * 15 + 26) / 52)
+exe '2resize ' . ((&lines * 21 + 26) / 52)
+exe '3resize ' . ((&lines * 11 + 26) / 52)
+tabedit include/data_handler.hpp
+set splitbelow splitright
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+set nosplitbelow
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 24 + 26) / 52)
+exe '2resize ' . ((&lines * 24 + 26) / 52)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 31 - ((22 * winheight(0) + 12) / 24)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+31
 normal! 0
 wincmd w
 argglobal
@@ -64,85 +216,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 13 - ((5 * winheight(0) + 9) / 18)
+let s:l = 205 - ((23 * winheight(0) + 12) / 24)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-13
-normal! 013|
-wincmd w
-argglobal
-if bufexists("term://.//175:/bin/bash") | buffer term://.//175:/bin/bash | else | edit term://.//175:/bin/bash | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-let s:l = 61 - ((8 * winheight(0) + 4) / 9)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-61
-normal! 028|
-wincmd w
-2wincmd w
-exe '1resize ' . ((&lines * 19 + 25) / 51)
-exe '2resize ' . ((&lines * 18 + 25) / 51)
-exe '3resize ' . ((&lines * 9 + 25) / 51)
-tabedit include/data.hpp
-set splitbelow splitright
-wincmd _ | wincmd |
-split
-1wincmd k
-wincmd w
-set nosplitbelow
-wincmd t
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe '1resize ' . ((&lines * 23 + 25) / 51)
-exe '2resize ' . ((&lines * 24 + 25) / 51)
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 27 - ((13 * winheight(0) + 11) / 23)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-27
-normal! 05|
-wincmd w
-argglobal
-if bufexists("src/data.cc") | buffer src/data.cc | else | edit src/data.cc | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 12) / 24)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-1
+205
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 23 + 25) / 51)
-exe '2resize ' . ((&lines * 24 + 25) / 51)
+exe '1resize ' . ((&lines * 24 + 26) / 52)
+exe '2resize ' . ((&lines * 24 + 26) / 52)
 tabnext 1
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

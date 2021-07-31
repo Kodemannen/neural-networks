@@ -10,13 +10,13 @@ export DISPLAY=:0
 # compile with both Armadillo and Eigen:
 #g++  main.cpp src/basicNN.cpp headers/basicNN.h \
 #g++  main.cpp basicNN.cpp headers/basicNN.h \
-g++  src/data_handler.cc  src/data.cc \
+g++ main.cc src/data_handler.cc  src/data.cc \
     -I include/ \
     -o outputfile -std=c++17 -O2 \
-    # -larmadillo \
+    -larmadillo \
+    -lsfml-graphics -lsfml-window -lsfml-system \
+    -lglut -lGLU -lGL
     # -I /usr/include/eigen3/ \
-    # -lsfml-graphics -lsfml-window -lsfml-system \
-    # -lglut -lGLU -lGL
 
 # run:
 ./outputfile ;
