@@ -4,7 +4,7 @@
 #include <vector>
 #include "stdint.h"
 #include "stdio.h"
-#include <ostream>
+#include <iostream>
 
 // Each datapoint is represented as a unique instance of this data class
 // if I understand it correctly

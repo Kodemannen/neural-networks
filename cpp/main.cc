@@ -41,8 +41,10 @@ int main()
 
     // Training data should be a vector of pointers to data objects
     //auto training_data = dh->get_training_data();
+    
+    // This is how one datapoint is fetched:
     std::vector<data *> * training_data = dh->get_training_data();
-    data* datapoint = training_data->at(1);
+    data* datapoint = training_data->at(2);
 
 
     std::vector<uint8_t> * feature_vec = datapoint->get_feature_vector();
