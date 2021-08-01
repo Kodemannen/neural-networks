@@ -41,15 +41,26 @@ void data_handler::read_feature_vector(std::string path)
         printf("Done getting input file header.\n");
         int image_size = header[2]*header[3];
 
+
+        // iterate over all imgs:
         for (int i=0; i<header[1]; i++)
         {
-            data *d = new data();
+            // make (pointer to) data oject for each image:
+            data *d = new data(image_size);
             uint8_t element[1];
+
+            // iterate over all pixels?
             for (int j=0; j<image_size; j++)
             {
+                //
+                // Files automatically go to next element after reading one, so by 
+                // looping and reading a single byte from f into element, the next 
+                // time we do it, we get the next byte in line
                 if (fread(element, sizeof(element), 1, f))
                 {
-                    d->append_to_feature_vector(element[0]);
+                    //d->append_to_feature_vector(element[0]);
+                    d->feature_vec[j] = element[0];
+
                     //printf("$d\n", i);
                     //std::cout << i << std::endl;
                 } else

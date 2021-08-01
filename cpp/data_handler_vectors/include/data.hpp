@@ -10,7 +10,8 @@
 // if I understand it correctly
 class data 
 {
-    std::vector<uint8_t> * feature_vector;  // the actual input
+    //std::vector<uint8_t> * feature_vector;  // the actual input
+
     uint8_t label;  // class label of some type, e.g. string "cat"
     int enum_label; // class label represented as integer
 
@@ -28,7 +29,8 @@ class data
     uint8_t get_label();
     uint8_t get_enumerated_label();
 
-    std::vector<uint8_t> * get_feature_vector();
+    //std::vector<uint8_t> * get_feature_vector();
+    //arma::colvec get_feature_vector();
 };
     
 

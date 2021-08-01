@@ -5,19 +5,24 @@
 #include "stdint.h"
 #include "stdio.h"
 #include <ostream>
+#include <armadillo>
 
 // Each datapoint is represented as a unique instance of this data class
 // if I understand it correctly
 class data 
 {
-    std::vector<uint8_t> * feature_vector;  // the actual input
+    // change this to an armadillo vector?
+    //std::vector<uint8_t> * feature_vector;  // the actual input
+
+
     uint8_t label;  // class label of some type, e.g. string "cat"
     int enum_label; // class label represented as integer
 
     public:
-    data();
+    data(int image_size);
     ~data();
 
+    arma::colvec feature_vec;
 
     void set_feature_vector(std::vector<uint8_t> *);
     void append_to_feature_vector(uint8_t);
