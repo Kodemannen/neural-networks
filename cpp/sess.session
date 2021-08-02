@@ -7,20 +7,18 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +55 main.cc
-badd +9 data_handler_vectors/include/data.hpp
-badd +1 data_handler_vectors/include/data_handler.hpp
-badd +26 include/data.hpp
-badd +25 include/data_handler.hpp
-badd +7 ~/repos/useful-stuff/topics/vim/notes.vim
-badd +0 term://.//3752:/bin/bash
-badd +288 ~/repos/useful-stuff/topics/other/tekster.txt
-badd +0 src/data_handler.cc
-badd +0 src/data.cc
+badd +31 main.cpp
+badd +1 term://.//7115:/bin/bash
+badd +0 src/data_handler.cpp
+badd +1 src/data.cpp
+badd +2 src/basic_neural_net.cpp
+badd +0 include/basic_neural_net.hpp
+badd +0 term://.//7121:/bin/bash
+badd +0 test_neural_net.sh
 argglobal
 %argdel
 set stal=2
-edit main.cc
+edit main.cpp
 set splitbelow splitright
 wincmd _ | wincmd |
 split
@@ -32,8 +30,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 38 + 25) / 51)
-exe '2resize ' . ((&lines * 9 + 25) / 51)
+exe '1resize ' . ((&lines * 36 + 26) / 52)
+exe '2resize ' . ((&lines * 12 + 26) / 52)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -44,46 +42,115 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 56 - ((10 * winheight(0) + 19) / 38)
+let s:l = 31 - ((13 * winheight(0) + 18) / 36)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+31
+normal! 0
+wincmd w
+argglobal
+if bufexists("term://.//7121:/bin/bash") | buffer term://.//7121:/bin/bash | else | edit term://.//7121:/bin/bash | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 12 - ((11 * winheight(0) + 6) / 12)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+12
+normal! 0
+wincmd w
+exe '1resize ' . ((&lines * 36 + 26) / 52)
+exe '2resize ' . ((&lines * 12 + 26) / 52)
+tabedit include/basic_neural_net.hpp
+set splitbelow splitright
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+set nosplitbelow
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 14 + 26) / 52)
+exe '2resize ' . ((&lines * 34 + 26) / 52)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 7) / 14)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists("src/basic_neural_net.cpp") | buffer src/basic_neural_net.cpp | else | edit src/basic_neural_net.cpp | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 2 - ((1 * winheight(0) + 17) / 34)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+2
+normal! 0
+wincmd w
+exe '1resize ' . ((&lines * 14 + 26) / 52)
+exe '2resize ' . ((&lines * 34 + 26) / 52)
+tabedit src/data.cpp
+set splitbelow splitright
+set nosplitbelow
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 56 - ((48 * winheight(0) + 24) / 49)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 56
-normal! 071|
-wincmd w
-argglobal
-if bufexists("term://.//3752:/bin/bash") | buffer term://.//3752:/bin/bash | else | edit term://.//3752:/bin/bash | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-let s:l = 27 - ((8 * winheight(0) + 4) / 9)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-27
 normal! 0
-wincmd w
-exe '1resize ' . ((&lines * 38 + 25) / 51)
-exe '2resize ' . ((&lines * 9 + 25) / 51)
-tabedit data_handler_vectors/include/data.hpp
+tabedit src/data_handler.cpp
 set splitbelow splitright
-wincmd _ | wincmd |
-split
-1wincmd k
-wincmd w
 set nosplitbelow
 wincmd t
 set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 23 + 25) / 51)
-exe '2resize ' . ((&lines * 24 + 25) / 51)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -94,48 +161,20 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 9 - ((4 * winheight(0) + 11) / 23)
+let s:l = 1 - ((0 * winheight(0) + 24) / 49)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-9
-normal! 04|
-wincmd w
-argglobal
-if bufexists("src/data.cc") | buffer src/data.cc | else | edit src/data.cc | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 32 - ((11 * winheight(0) + 12) / 24)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-32
+1
 normal! 0
-wincmd w
-2wincmd w
-exe '1resize ' . ((&lines * 23 + 25) / 51)
-exe '2resize ' . ((&lines * 24 + 25) / 51)
-tabedit include/data_handler.hpp
+tabedit test_neural_net.sh
 set splitbelow splitright
-wincmd _ | wincmd |
-split
-1wincmd k
-wincmd w
 set nosplitbelow
 wincmd t
 set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 13 + 25) / 51)
-exe '2resize ' . ((&lines * 34 + 25) / 51)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -146,34 +185,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 25 - ((6 * winheight(0) + 6) / 13)
+let s:l = 20 - ((19 * winheight(0) + 24) / 49)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-25
-normal! 05|
-wincmd w
-argglobal
-if bufexists("src/data_handler.cc") | buffer src/data_handler.cc | else | edit src/data_handler.cc | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 130 - ((1 * winheight(0) + 17) / 34)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-130
-normal! 05|
-wincmd w
-exe '1resize ' . ((&lines * 13 + 25) / 51)
-exe '2resize ' . ((&lines * 34 + 25) / 51)
-tabnext 2
+20
+normal! 02|
+tabnext 1
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
