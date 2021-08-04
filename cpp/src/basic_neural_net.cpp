@@ -40,7 +40,7 @@ neural_net::neural_net(std::vector<int> nodes)
         W = arma::randn<arma::mat>( nodes[i+1], nodes[i] );  // drawn from gaussian(0,1)
         weight_matrices.push_back(W);
 
-        b = arma::ones<arma::colvec>(nodes[i+1]);
+        b = arma::zeros<arma::colvec>(nodes[i+1]);
         biases.push_back(b);
 
         z = arma::zeros<arma::colvec>(nodes[i+1]);  
@@ -49,9 +49,6 @@ neural_net::neural_net(std::vector<int> nodes)
         a = arma::zeros<arma::colvec>(nodes[i+1]);  
         activations.push_back(a);
     }
-
-
-
 }
 
 
@@ -70,11 +67,15 @@ arma::colvec relu(arma::colvec v)
 arma::colvec softmax(arma::colvec v)
 {
     // This can be improved by doing operations in log-space
-    arma::colvec exped = arma::exp(v);
-    double denominator = arma::sum(exped);  
-    arma::colvec softmaxed = exped / denominator;
+    /* arma::colvec exped = arma::exp(v); */
+    /* double denominator = arma::sum(exped); */  
+    /* arma::colvec softmaxed = exped / denominator; */
 
-    return softmaxed;
+    // Numerically stable version:
+    arma::colvec shifted = v - arma::max(v);
+    arma::colvec exped = arma::exp(shifted); 
+
+    return exped / arma::sum(exped);
 }
 
 void neural_net::forward(arma::colvec input)

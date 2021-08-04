@@ -21,7 +21,11 @@
 
 
 arma::colvec relu(arma::colvec);
+arma::colvec relu_gradient(arma::colvec);
+
+
 arma::colvec softmax(arma::colvec);
+arma::colvec softmax_gradient(arma::colvec);
 
 class neural_net
 {
@@ -34,6 +38,7 @@ class neural_net
     ~neural_net();
 
     void forward(arma::colvec input);
+    void backward(arma::colvec target);
 
     int n_layers;
     std::vector<int> nodes; 
