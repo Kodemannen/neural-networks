@@ -18,6 +18,11 @@
 
 // for delay:
 #include <unistd.h>
+
+
+arma::colvec relu(arma::colvec);
+arma::colvec softmax(arma::colvec);
+
 class neural_net
 {
     private:

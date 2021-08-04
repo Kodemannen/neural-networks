@@ -67,6 +67,16 @@ arma::colvec relu(arma::colvec v)
     return v%(v>0);
 }
 
+arma::colvec softmax(arma::colvec v)
+{
+    // This can be improved by doing operations in log-space
+    arma::colvec exped = arma::exp(v);
+    double denominator = arma::sum(exped);  
+    arma::colvec softmaxed = exped / denominator;
+
+    return softmaxed;
+}
+
 void neural_net::forward(arma::colvec input)
 {
 
@@ -87,9 +97,19 @@ void neural_net::forward(arma::colvec input)
         b = biases[i];
 
         pre_activations[i] = W*a_prev + b;
-        activations[i+1] = relu(pre_activations[i]);
-        // should apply softmax on the last layer!
+
+        // if not output layer --> using relu activation
+        if (i!=n_layers-2)
+        {
+            activations[i+1] = relu(pre_activations[i]);
+        }
+
+        else // if output layer --> using softmax activation
+        {
+            activations[i+1] = softmax(pre_activations[i]);
+        }
     }
+    
 
 }
     
