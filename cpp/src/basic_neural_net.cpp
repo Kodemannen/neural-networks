@@ -109,7 +109,6 @@ void neural_net::forward(arma::colvec input)
             activations[i+1] = softmax(pre_activations[i]);
         }
     }
-    
 
 }
     
@@ -119,8 +118,8 @@ int main()
     std::cout << "just_testing" << std::endl;
 
     // Define neural net architecture:
-    int n_inp=2;
-    std::vector<int> nodes = {n_inp, 3, 4, 2};      // first is input layer, last output layer
+    int n_inp=4;
+    std::vector<int> nodes = {n_inp, 9, 120, 6};      // first is input layer, last output layer
     arma::colvec inp = arma::ones<arma::colvec>(n_inp);
 
     neural_net nn = neural_net(nodes);
