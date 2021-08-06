@@ -10,7 +10,7 @@ export DISPLAY=:0
 # compile with both Armadillo and Eigen:
 #g++  main.cpp src/basicNN.cpp headers/basicNN.h \
 #g++  main.cpp basicNN.cpp headers/basicNN.h \
-g++ main.cpp src/basic_neural_net.cpp src/data_handler.cpp  src/data.cpp  \
+g++ main.cpp src/data_handler.cpp  src/data.cpp  \
     -I include/ \
     -o outputfile -std=c++17 -O2 \
     -larmadillo \

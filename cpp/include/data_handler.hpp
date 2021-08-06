@@ -17,6 +17,7 @@ class data_handler
     std::vector<data *> * test_data;
     std::vector<data *> * validation_data;
     
+    long unsigned n_total_data;
     int num_classes;
     int feature_vector_size;
     std::map<uint8_t, int> class_map;   // maps integer value to class label
@@ -33,8 +34,11 @@ class data_handler
     void read_feature_labels(std::string path);
     void split_data();
     void count_classes();
+    void set_labels_properly();
 
     uint32_t convert_to_little_endian(const unsigned char * bytes);
+
+    uint8_t get_num_classes();
 
     std::vector<data *> * get_training_data();
     std::vector<data *> * get_test_data();

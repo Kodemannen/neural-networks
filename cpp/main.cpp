@@ -27,7 +27,7 @@ void test_data_loader();
 int main()
 {
 
-    //test_data_loader();
+    test_data_loader();
 
     return 0;
 }
@@ -128,7 +128,11 @@ void test_data_loader()
     dh->read_feature_labels("data/mnist/train-labels-idx1-ubyte");
     dh->split_data();
     dh->count_classes();
+    /* int num_classes = dh->get_num_classes(); */
+    /* std::cout << num_classes << std::endl; */
 
+
+    dh->set_labels_properly();
 
 
     // Training data should be a vector of pointers to data objects
@@ -136,7 +140,15 @@ void test_data_loader()
     
     // This is how one datapoint is fetched:
     std::vector<data *> * training_data = dh->get_training_data();
-    data* datapoint = training_data->at(3);
+    data* datapoint = training_data->at(2);
+
+    arma::colvec onehot_example = datapoint->get_class_vec();
+
+    std::cout << onehot_example << std::endl;
+    int hmm = datapoint->get_enumerated_label();
+    std::cout << hmm << std::endl;
+
+    //std::cout << onehot_example << std::endl;
 
     //arma::colvec feature_vec_example = datapoint->get_feature_vector(); 
     arma::colvec feature_vec_example = datapoint->feature_vec;

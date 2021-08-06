@@ -71,7 +71,8 @@ void data_handler::read_feature_vector(std::string path)
             }
             data_array->push_back(d);
         }
-        printf("Successfully read and stored %lu feature vectors\n", data_array->size());
+        n_total_data = data_array->size();
+        printf("Successfully read and stored %lu feature vectors\n", n_total_data);
     } else
     {
         printf("Could not find file \n");
@@ -178,13 +179,34 @@ void data_handler::count_classes()
         if (class_map.find(data_array->at(i)->get_label()) == class_map.end())
         {
             class_map[data_array->at(i)->get_label()] = count;
-            data_array->at(i)->set_enumerated_label(count);
             count++;
         }
     }
     num_classes = count;
     printf("Successfully extracted %d unique classes \n", num_classes);
 }
+
+void data_handler::set_labels_properly()
+{
+    // set enum_label and onehot vector for all data 
+
+    uint8_t label;
+    int enum_label;
+    for (unsigned i = 0; i<n_total_data; i++)
+    {
+        label = data_array->at(i)->get_label();
+        enum_label = class_map[ label ];
+
+        data_array->at(i)->set_enumerated_label(enum_label);
+        data_array->at(i)->set_class_vec(enum_label, num_classes);
+
+    }
+
+
+
+}
+
+
 
 
 uint32_t data_handler::convert_to_little_endian(const unsigned char * bytes)
@@ -193,6 +215,11 @@ uint32_t data_handler::convert_to_little_endian(const unsigned char * bytes)
                         (bytes[1] << 16) |
                         (bytes[2] << 8)  |
                         (bytes[3]));
+}
+
+uint8_t data_handler::get_num_classes()
+{
+    return num_classes;
 }
 
 std::vector<data *> * data_handler::get_training_data()

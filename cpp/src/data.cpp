@@ -29,9 +29,24 @@ void data::set_label(uint8_t val)
     label = val;
 }
 
+
 void data::set_enumerated_label(int val)
 {
     enum_label = val;
+}
+
+void data::set_class_vec(int enum_label, int n_classes)
+{
+    // requires enum_label to be set, meaning requires 
+    // data_handler::count_classes() to have been run
+    class_vec = arma::zeros(n_classes);   
+    class_vec[enum_label] = 1;
+}
+
+arma::colvec data::get_class_vec()
+{
+    //arma::colvec ting = arma::zeros(3);
+    return class_vec;
 }
 
 /* int data::get_feature_vector_size() */
@@ -41,6 +56,7 @@ void data::set_enumerated_label(int val)
 
 uint8_t data::get_label()
 {
+
     return label;
 }
 

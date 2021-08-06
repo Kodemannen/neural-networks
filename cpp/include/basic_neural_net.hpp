@@ -29,10 +29,6 @@ arma::colvec softmax_gradient(arma::colvec);
 
 class neural_net
 {
-    private:
-    arma::mat W;
-    arma::colvec a;
-
     public:
     neural_net(std::vector<int> );
     ~neural_net();
@@ -46,5 +42,8 @@ class neural_net
     std::vector<arma::colvec> biases;
     std::vector<arma::colvec> pre_activations;
     std::vector<arma::colvec> activations;
+
+    std::vector<arma::mat> weight_gradients;
+    std::vector<arma::colvec> bias_gradients;
 
 };

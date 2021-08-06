@@ -48,6 +48,13 @@ neural_net::neural_net(std::vector<int> nodes)
 
         a = arma::zeros<arma::colvec>(nodes[i+1]);  
         activations.push_back(a);
+
+        // Gradient placeholders:
+        W = arma::zeros<arma::mat>( nodes[i+1], nodes[i] );  // drawn from gaussian(0,1)
+        weight_gradients.push_back(W);
+
+        b = arma::zeros<arma::colvec>(nodes[i+1]);
+        bias_gradients.push_back(b);
     }
 }
 
@@ -64,6 +71,8 @@ arma::colvec relu(arma::colvec v)
     return v%(v>0);
 }
 
+arma::colvec relu_gradient(arma::colvec);
+
 arma::colvec softmax(arma::colvec v)
 {
     // This can be improved by doing operations in log-space
@@ -76,6 +85,11 @@ arma::colvec softmax(arma::colvec v)
     arma::colvec exped = arma::exp(shifted); 
 
     return exped / arma::sum(exped);
+}
+
+arma::colvec softmax_gradient(arma::colvec target)
+{
+
 }
 
 void neural_net::forward(arma::colvec input)
@@ -113,6 +127,17 @@ void neural_net::forward(arma::colvec input)
 
 }
     
+
+void neural_net::backward(arma::colvec target)
+{
+    ///arma::
+    for (int i=0; i<n_layers-1; i++)
+    {
+
+    }
+}
+
+
 
 int main()
 {
