@@ -38,7 +38,7 @@ class data
     void set_class_vec(int enum_label, int n_classes);
     arma::colvec get_class_vec();
 
-    std::vector<uint8_t> * get_feature_vector();
+    /* std::vector<uint8_t> * get_feature_vector(); */
 };
     
 

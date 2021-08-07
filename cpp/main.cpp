@@ -17,6 +17,7 @@
 // for delay:
 #include <unistd.h>
 
+#include "basic_neural_net.hpp"
 
 
 void visualize_feature_vec(arma::colvec);
@@ -126,13 +127,10 @@ void test_data_loader()
     //auto datap = *dh->at(0);
 
     dh->read_feature_labels("data/mnist/train-labels-idx1-ubyte");
-    dh->split_data();
     dh->count_classes();
-    /* int num_classes = dh->get_num_classes(); */
-    /* std::cout << num_classes << std::endl; */
-
-
-    dh->set_labels_properly();
+    dh->set_labels_properly();  // set enum_label and onehot encoded label 
+                                // vector for all data
+    dh->split_data();
 
 
     // Training data should be a vector of pointers to data objects
@@ -142,22 +140,20 @@ void test_data_loader()
     std::vector<data *> * training_data = dh->get_training_data();
     data* datapoint = training_data->at(2);
 
-    arma::colvec onehot_example = datapoint->get_class_vec();
 
-    std::cout << onehot_example << std::endl;
-    int hmm = datapoint->get_enumerated_label();
-    std::cout << hmm << std::endl;
+    arma::colvec inp = datapoint->feature_vec;
+    arma::colvec targ_vec = datapoint->class_vec;
 
-    //std::cout << onehot_example << std::endl;
 
-    //arma::colvec feature_vec_example = datapoint->get_feature_vector(); 
-    arma::colvec feature_vec_example = datapoint->feature_vec;
+    int n_inp=inp.size();
+    int n_output=targ_vec.size();
+    std::vector<int> nodes = {n_inp, 9, 120, n_output};      
 
-    int data_size = feature_vec_example.size();
+    neural_net nn = neural_net(nodes);
+    nn.forward(inp);
+    nn.backward(targ_vec);
+
     
-
-
-
     
     //visualize_feature_vec(feature_vec_example);
 }

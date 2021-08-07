@@ -71,7 +71,20 @@ arma::colvec relu(arma::colvec v)
     return v%(v>0);
 }
 
-arma::colvec relu_gradient(arma::colvec);
+arma::colvec relu_derivative(arma::colvec v)
+{
+    // to get it to return a colvec, we must multiply elementwise with an arma::colvec
+    arma::colvec k = arma::ones(v.size());
+    return k%(v>0);
+}
+
+/* arma::colvec relu_gradient(arma::colvec v) */
+/* { */
+/*     // H does not become an arma::colvec here, so must use auto. */
+/*     // If H is plussed with an arma::colvec, then the result will be arma::colvec */
+/*     auto H = v>=0; */
+/*     return H; */
+/* } */
 
 arma::colvec softmax(arma::colvec v)
 {
@@ -128,29 +141,47 @@ void neural_net::forward(arma::colvec input)
 }
     
 
-void neural_net::backward(arma::colvec target)
+void neural_net::backward(arma::colvec target_vec)
 {
     ///arma::
+    arma::mat deltaW;
+    arma::mat deltab;
+    int L = n_layers-1;
+
+    arma::colvec deltaZ_l; 
+
+    int l = L;
     for (int i=0; i<n_layers-1; i++)
     {
+
+        if (l==L)
+        {
+            deltaZ_l = activations[L] - target_vec; //
+        } else
+        {
+            z =  
+            deltaZ_l = 
+        }
+
+
 
     }
 }
 
 
 
-int main()
-{
-    std::cout << "just_testing" << std::endl;
+/* int main() */
+/* { */
+/*     std::cout << "just_testing" << std::endl; */
 
-    // Define neural net architecture:
-    int n_inp=4;
-    std::vector<int> nodes = {n_inp, 9, 120, 6};      // first is input layer, last output layer
-    arma::colvec inp = arma::ones<arma::colvec>(n_inp);
+/*     // Define neural net architecture: */
+/*     int n_inp=4; */
+/*     std::vector<int> nodes = {n_inp, 9, 120, 6};      // first is input layer, last output layer */
+/*     arma::colvec inp = arma::ones<arma::colvec>(n_inp); */
 
-    neural_net nn = neural_net(nodes);
-    nn.forward(inp);
+/*     neural_net nn = neural_net(nodes); */
+/*     nn.forward(inp); */
 
 
-    return 0;
-}
+/*     return 0; */
+/* } */

@@ -199,11 +199,7 @@ void data_handler::set_labels_properly()
 
         data_array->at(i)->set_enumerated_label(enum_label);
         data_array->at(i)->set_class_vec(enum_label, num_classes);
-
     }
-
-
-
 }
 
 

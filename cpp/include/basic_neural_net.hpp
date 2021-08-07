@@ -21,7 +21,7 @@
 
 
 arma::colvec relu(arma::colvec);
-arma::colvec relu_gradient(arma::colvec);
+arma::colvec relu_derivative(arma::colvec);
 
 
 arma::colvec softmax(arma::colvec);
