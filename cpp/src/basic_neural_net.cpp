@@ -1,6 +1,6 @@
 #include "basic_neural_net.hpp"
 
-neural_net::neural_net(std::vector<int> nodes)
+neural_net::neural_net(std::vector<int> nodes, double learning_rate)
 {
     /*
      * Constructs a neural net object
@@ -37,7 +37,7 @@ neural_net::neural_net(std::vector<int> nodes)
 
     for (int i=0; i<n_layers-1; i++)
     {
-        W = arma::randn<arma::mat>( nodes[i+1], nodes[i] );  // drawn from gaussian(0,1)
+        W = arma::randn<arma::mat>(nodes[i], nodes[i+1] );  // drawn from gaussian(0,1)
         weight_matrices.push_back(W);
 
         b = arma::zeros<arma::colvec>(nodes[i+1]);
@@ -50,7 +50,7 @@ neural_net::neural_net(std::vector<int> nodes)
         activations.push_back(a);
 
         // Gradient placeholders:
-        W = arma::zeros<arma::mat>( nodes[i+1], nodes[i] );  // drawn from gaussian(0,1)
+        W = arma::zeros<arma::mat>( nodes[i], nodes[i+1] );  // drawn from gaussian(0,1)
         weight_gradients.push_back(W);
 
         b = arma::zeros<arma::colvec>(nodes[i+1]);
@@ -100,10 +100,10 @@ arma::colvec softmax(arma::colvec v)
     return exped / arma::sum(exped);
 }
 
-arma::colvec softmax_gradient(arma::colvec target)
-{
+/* arma::colvec softmax_gradient(arma::colvec target) */
+/* { */
 
-}
+/* } */
 
 void neural_net::forward(arma::colvec input)
 {
@@ -124,7 +124,7 @@ void neural_net::forward(arma::colvec input)
         W = weight_matrices[i];
         b = biases[i];
 
-        pre_activations[i] = W*a_prev + b;
+        pre_activations[i] = W.t()*a_prev + b;
 
         // if not output layer --> using relu activation
         if (i!=n_layers-2)
@@ -143,45 +143,159 @@ void neural_net::forward(arma::colvec input)
 
 void neural_net::backward(arma::colvec target_vec)
 {
-    ///arma::
-    arma::mat deltaW;
-    arma::mat deltab;
-    int L = n_layers-1;
 
-    arma::colvec deltaZ_l; 
+    int L = n_layers -1;    // weight_matrices, biases, pre_activations are L long.
+                            // activations is n_layers long, since its first element 
+                            // is the input
 
-    int l = L;
-    for (int i=0; i<n_layers-1; i++)
-    {
 
-        if (l==L)
+    arma::colvec nabla_zl;
+    // Since we are going backwards, we want the first index l to get the last element
+    // in weight_matrices, meaning we must start with l=L-1.
+    // We must add +1 when we get activations, since it contain one more element, namely
+    // the input, which represent the very first activation layer. 
+
+
+    //----------------------------------------
+    // Get gradients:
+    //----------------------------------------
+    for (int l=L-1; l>=0; l--)      // These are the same values in reverse that l would have
+    {                               // if we ran forwards like for (int l=0, l<L; l++) 
+        std::cout << l << std::endl;
+
+        if (l==L-1)
         {
-            deltaZ_l = activations[L] - target_vec; //
-        } else
+            nabla_zl = activations[l+1] - target_vec;
+
+        } else 
         {
-            z =  
-            deltaZ_l = 
+            nabla_zl = relu_derivative(pre_activations[l]) % (weight_matrices[l+1]*nabla_zl);
         }
 
+        weight_gradients[l] = activations[l]*nabla_zl.t();
+        bias_gradients[l] = nabla_zl;
+    }
 
-
+    
+    //----------------------------------------
+    // Perform weight update:
+    //----------------------------------------
+    for (int i=0; i<n_layers-1; i++)
+    {
+        weight_matrices[i] -= learning_rate * weight_gradients[i];
+        biases[i] -= learning_rate * bias_gradients[i];
     }
 }
 
 
 
-/* int main() */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* void neural_net::backward(arma::colvec target_vec) */
 /* { */
-/*     std::cout << "just_testing" << std::endl; */
+/*     // Assumes cross entropy loss and relu activation in the hidden layers */
+/*     // softmax at output layers */
+    
+/*     //arma::mat nabla_Wl */
+/*     arma::mat nabla_Wl; */
+/*     arma::colvec nabla_bl; */
+/*     arma::colvec nabla_zl; */ 
+/*     arma::mat W; */
+    
 
-/*     // Define neural net architecture: */
-/*     int n_inp=4; */
-/*     std::vector<int> nodes = {n_inp, 9, 120, 6};      // first is input layer, last output layer */
-/*     arma::colvec inp = arma::ones<arma::colvec>(n_inp); */
+/*     int L = n_layers-1; */     
 
-/*     neural_net nn = neural_net(nodes); */
-/*     nn.forward(inp); */
+/*     // Getting the gradients: */
+/*     int l = L; */
+/*     for (int i=0; i<L; i++) */
+/*     { */
+
+/*         if (l==L) // if output layer: */
+/*         { */
+/*             nabla_zl = activations[L] - target_vec; // seems to be correct */
+
+/*             W = weight_matrices[l]; // seems to be correct */
+/*             std::cout << "----------------W----------------" << std::endl; */
+/*             std::cout << W << std::endl; */
+
+/*             /1* nabla_Wl = activations[l-1] * nabla_zl.t(); *1/ */
+/*             /1* std::cout << nabla_Wl << std::endl; *1/ */
 
 
-/*     return 0; */
+
+/*         } else */
+/*         { */
+/*             auto z = pre_activations[l-1]; */
+/*             W = weight_matrices[l]; // seems to be correct */
+
+/*             std::cout << "----------------W----------------" << std::endl; */
+/*             std::cout << W << std::endl; */
+
+
+
+/*             std::cout << "----------------nabla----------------" << std::endl; */
+
+
+/*             nabla_zl = relu_derivative(z) % (W*nabla_zl); // seems correct */
+/*             nabla_Wl = activations[l-1] * nabla_zl.t(); */
+            
+/*             std::cout << nabla_Wl << std::endl; */
+
+
+/*             //nabla_bl = nabla_zl; */
+
+
+
+/*             //weight_matrices[l] += nabla_Wl; */
+/*             //bias_gradients[l] += nabla_bl; */
+
+/*         } */
+
+/*         std::cout << l << std::endl; */
+/*         l -= 1; */
+/*     } */
+/*     std::cout <<"fiasd"  << std::endl; */
+/*     exit(0); */
+
+/*     // Performing the weight/bias update: */
+    
 /* } */

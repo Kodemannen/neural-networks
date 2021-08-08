@@ -7,22 +7,23 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +155 main.cpp
+badd +134 main.cpp
 badd +1 term://.//7115:/bin/bash
 badd +137 src/data_handler.cpp
 badd +55 src/data.cpp
-badd +2 src/basic_neural_net.cpp
-badd +33 include/basic_neural_net.hpp
+badd +175 src/basic_neural_net.cpp
+badd +50 include/basic_neural_net.hpp
 badd +20 test_neural_net.sh
 badd +13 compile_and_run.sh
 badd +38 include/data.hpp
 badd +101 ~/repos/useful-stuff/topics/other/ideas.txt
 badd +41 ~/repos/useful-stuff/topics/cpp/test.cpp
-badd +0 include/data_handler.hpp
+badd +1 include/data_handler.hpp
 badd +416 ~/repos/useful-stuff/dotfiles/config.vim
-badd +0 term://.//195150:/bin/bash
+badd +1 term://.//19770:/bin/bash
 badd +2 ~/repos/neural-networks/.gitignore
-badd +0 term://.//230609:/bin/bash
+badd +0 term://.//19870:/bin/bash
+badd +22 term://.//22292:/bin/bash
 argglobal
 %argdel
 set stal=2
@@ -38,8 +39,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 43 + 29) / 59)
-exe '2resize ' . ((&lines * 12 + 29) / 59)
+exe '1resize ' . ((&lines * 42 + 29) / 58)
+exe '2resize ' . ((&lines * 12 + 29) / 58)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -50,15 +51,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 134 - ((26 * winheight(0) + 21) / 43)
+let s:l = 187 - ((41 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-134
+187
 normal! 0
 wincmd w
 argglobal
-if bufexists("term://.//195150:/bin/bash") | buffer term://.//195150:/bin/bash | else | edit term://.//195150:/bin/bash | endif
+if bufexists("term://.//19770:/bin/bash") | buffer term://.//19770:/bin/bash | else | edit term://.//19770:/bin/bash | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -67,15 +68,117 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 28 - ((11 * winheight(0) + 6) / 12)
+let s:l = 12 - ((11 * winheight(0) + 6) / 12)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-28
+12
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 43 + 29) / 59)
-exe '2resize ' . ((&lines * 12 + 29) / 59)
+exe '1resize ' . ((&lines * 42 + 29) / 58)
+exe '2resize ' . ((&lines * 12 + 29) / 58)
+tabedit include/basic_neural_net.hpp
+set splitbelow splitright
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+2wincmd k
+wincmd w
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd w
+set nosplitbelow
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe '1resize ' . ((&lines * 6 + 29) / 58)
+exe '2resize ' . ((&lines * 38 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 103 + 52) / 105)
+exe '3resize ' . ((&lines * 38 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 1 + 52) / 105)
+exe '4resize ' . ((&lines * 9 + 29) / 58)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 47 - ((5 * winheight(0) + 3) / 6)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+47
+normal! 0
+wincmd w
+argglobal
+if bufexists("src/basic_neural_net.cpp") | buffer src/basic_neural_net.cpp | else | edit src/basic_neural_net.cpp | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 124 - ((0 * winheight(0) + 19) / 38)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+124
+normal! 0
+wincmd w
+argglobal
+if bufexists("main.cpp") | buffer main.cpp | else | edit main.cpp | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 140 - ((0 * winheight(0) + 19) / 38)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+140
+normal! 04|
+wincmd w
+argglobal
+if bufexists("term://.//19870:/bin/bash") | buffer term://.//19870:/bin/bash | else | edit term://.//19870:/bin/bash | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 1 - ((0 * winheight(0) + 4) / 9)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 050|
+wincmd w
+2wincmd w
+exe '1resize ' . ((&lines * 6 + 29) / 58)
+exe '2resize ' . ((&lines * 38 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 103 + 52) / 105)
+exe '3resize ' . ((&lines * 38 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 1 + 52) / 105)
+exe '4resize ' . ((&lines * 9 + 29) / 58)
 tabedit include/data_handler.hpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -96,14 +199,14 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 18 + 29) / 59)
-exe 'vert 1resize ' . ((&columns * 103 + 106) / 213)
-exe '2resize ' . ((&lines * 37 + 29) / 59)
-exe 'vert 2resize ' . ((&columns * 103 + 106) / 213)
-exe '3resize ' . ((&lines * 18 + 29) / 59)
-exe 'vert 3resize ' . ((&columns * 109 + 106) / 213)
-exe '4resize ' . ((&lines * 37 + 29) / 59)
-exe 'vert 4resize ' . ((&columns * 109 + 106) / 213)
+exe '1resize ' . ((&lines * 18 + 29) / 58)
+exe 'vert 1resize ' . ((&columns * 50 + 52) / 105)
+exe '2resize ' . ((&lines * 36 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 50 + 52) / 105)
+exe '3resize ' . ((&lines * 18 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 54 + 52) / 105)
+exe '4resize ' . ((&lines * 36 + 29) / 58)
+exe 'vert 4resize ' . ((&columns * 54 + 52) / 105)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -132,7 +235,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 47 - ((1 * winheight(0) + 18) / 37)
+let s:l = 47 - ((29 * winheight(0) + 18) / 36)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -150,7 +253,7 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 41 - ((16 * winheight(0) + 9) / 18)
+let s:l = 41 - ((14 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -168,123 +271,21 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 46 - ((0 * winheight(0) + 18) / 37)
+let s:l = 46 - ((0 * winheight(0) + 18) / 36)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 46
 normal! 014|
 wincmd w
-exe '1resize ' . ((&lines * 18 + 29) / 59)
-exe 'vert 1resize ' . ((&columns * 103 + 106) / 213)
-exe '2resize ' . ((&lines * 37 + 29) / 59)
-exe 'vert 2resize ' . ((&columns * 103 + 106) / 213)
-exe '3resize ' . ((&lines * 18 + 29) / 59)
-exe 'vert 3resize ' . ((&columns * 109 + 106) / 213)
-exe '4resize ' . ((&lines * 37 + 29) / 59)
-exe 'vert 4resize ' . ((&columns * 109 + 106) / 213)
-tabedit include/basic_neural_net.hpp
-set splitbelow splitright
-wincmd _ | wincmd |
-split
-wincmd _ | wincmd |
-split
-2wincmd k
-wincmd w
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-wincmd w
-set nosplitbelow
-wincmd t
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe '1resize ' . ((&lines * 18 + 29) / 59)
-exe '2resize ' . ((&lines * 26 + 29) / 59)
-exe 'vert 2resize ' . ((&columns * 109 + 106) / 213)
-exe '3resize ' . ((&lines * 26 + 29) / 59)
-exe 'vert 3resize ' . ((&columns * 103 + 106) / 213)
-exe '4resize ' . ((&lines * 10 + 29) / 59)
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 47 - ((17 * winheight(0) + 9) / 18)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-47
-normal! 0
-wincmd w
-argglobal
-if bufexists("src/basic_neural_net.cpp") | buffer src/basic_neural_net.cpp | else | edit src/basic_neural_net.cpp | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 119 - ((0 * winheight(0) + 13) / 26)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-119
-normal! 0
-wincmd w
-argglobal
-if bufexists("main.cpp") | buffer main.cpp | else | edit main.cpp | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 140 - ((25 * winheight(0) + 13) / 26)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-140
-normal! 024|
-wincmd w
-argglobal
-if bufexists("term://.//230609:/bin/bash") | buffer term://.//230609:/bin/bash | else | edit term://.//230609:/bin/bash | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-let s:l = 265 - ((9 * winheight(0) + 5) / 10)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-265
-normal! 050|
-wincmd w
-2wincmd w
-exe '1resize ' . ((&lines * 18 + 29) / 59)
-exe '2resize ' . ((&lines * 26 + 29) / 59)
-exe 'vert 2resize ' . ((&columns * 109 + 106) / 213)
-exe '3resize ' . ((&lines * 26 + 29) / 59)
-exe 'vert 3resize ' . ((&columns * 103 + 106) / 213)
-exe '4resize ' . ((&lines * 10 + 29) / 59)
+exe '1resize ' . ((&lines * 18 + 29) / 58)
+exe 'vert 1resize ' . ((&columns * 50 + 52) / 105)
+exe '2resize ' . ((&lines * 36 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 50 + 52) / 105)
+exe '3resize ' . ((&lines * 18 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 54 + 52) / 105)
+exe '4resize ' . ((&lines * 36 + 29) / 58)
+exe 'vert 4resize ' . ((&columns * 54 + 52) / 105)
 tabedit include/data.hpp
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -297,8 +298,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 15 + 29) / 59)
-exe '2resize ' . ((&lines * 40 + 29) / 59)
+exe '1resize ' . ((&lines * 15 + 29) / 58)
+exe '2resize ' . ((&lines * 39 + 29) / 58)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -327,16 +328,16 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 71 - ((39 * winheight(0) + 20) / 40)
+let s:l = 71 - ((0 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 71
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 15 + 29) / 59)
-exe '2resize ' . ((&lines * 40 + 29) / 59)
-tabnext 3
+exe '1resize ' . ((&lines * 15 + 29) / 58)
+exe '2resize ' . ((&lines * 39 + 29) / 58)
+tabnext 2
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

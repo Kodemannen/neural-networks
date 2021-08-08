@@ -22,13 +22,15 @@
 
 void visualize_feature_vec(arma::colvec);
 void test_data_loader();
+void test_nn();
 
 
 
 int main()
 {
 
-    test_data_loader();
+    //test_data_loader();
+    test_nn();
 
     return 0;
 }
@@ -147,13 +149,39 @@ void test_data_loader()
 
     int n_inp=inp.size();
     int n_output=targ_vec.size();
+
+    
+
     std::vector<int> nodes = {n_inp, 9, 120, n_output};      
 
-    neural_net nn = neural_net(nodes);
+    double learning_rate=0.001;
+    neural_net nn = neural_net(nodes, learning_rate);
     nn.forward(inp);
     nn.backward(targ_vec);
 
     
     
     //visualize_feature_vec(feature_vec_example);
+}
+
+
+void test_nn()
+{
+
+    double learning_rate=0.001;
+
+    // Dummy 
+    int n_inp=4;
+    int n_outp=4;
+    std::vector<int> nodes = {n_inp, 2, 3, 4, n_outp};  
+
+    arma::colvec inp = arma::ones<arma::colvec>(n_inp);
+
+    arma::colvec targ_vec = arma::zeros<arma::colvec>(n_outp);
+    targ_vec[1] = 1;
+
+    neural_net nn = neural_net(nodes, learning_rate);
+
+    nn.forward(inp);
+    nn.backward(targ_vec);
 }

@@ -30,14 +30,17 @@ arma::colvec softmax_gradient(arma::colvec);
 class neural_net
 {
     public:
-    neural_net(std::vector<int> );
+    neural_net(std::vector<int>, double );
     ~neural_net();
 
     void forward(arma::colvec input);
     void backward(arma::colvec target);
 
     int n_layers;
-    std::vector<int> nodes; 
+    std::vector<int> nodes; // nodes in each layer
+
+    double learning_rate;
+
     std::vector<arma::mat> weight_matrices;
     std::vector<arma::colvec> biases;
     std::vector<arma::colvec> pre_activations;
