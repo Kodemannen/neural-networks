@@ -12,10 +12,10 @@
 
 class data_handler
 {
-    std::vector<data *> * data_array; // all of the data pre-split
-    std::vector<data *> * training_data;
-    std::vector<data *> * test_data;
-    std::vector<data *> * validation_data;
+    std::vector<data> data_array; // all of the data pre-split
+    std::vector<data> training_data;
+    std::vector<data> test_data;
+    std::vector<data> validation_data;
     
     long unsigned n_total_data;
     int num_classes;
@@ -40,9 +40,9 @@ class data_handler
 
     uint8_t get_num_classes();
 
-    std::vector<data *> * get_training_data();
-    std::vector<data *> * get_test_data();
-    std::vector<data *> * get_validation_data();
+    std::vector<data> get_training_data();
+    std::vector<data> get_test_data();
+    std::vector<data> get_validation_data();
 };
 
 #endif

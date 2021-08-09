@@ -1,6 +1,7 @@
 #include "basic_neural_net.hpp"
+#include <tuple>
 
-neural_net::neural_net(std::vector<int> nodes, double learning_rate)
+neural_net::neural_net(std::vector<int> nodes)
 {
     /*  ____            _                                   _              _   
        | __ )  __ _ ___(_) ___   _ __   ___ _   _ _ __ __ _| |  _ __   ___| |_ 
@@ -112,7 +113,9 @@ arma::colvec softmax(arma::colvec v)
 
 /* } */
 
-void neural_net::forward(arma::colvec input)
+
+// returns predictions and loss 
+std::tuple<arma::colvec, double> neural_net::forward(arma::colvec input, arma::colvec target)
 {
 
     /* weight_matrices[0].print(); */
@@ -125,6 +128,7 @@ void neural_net::forward(arma::colvec input)
     arma::colvec b;
     arma::colvec a_prev;
 
+
     for (int i=0; i<n_layers-1; i++)
     {
         a_prev = activations[i];
@@ -132,6 +136,7 @@ void neural_net::forward(arma::colvec input)
         b = biases[i];
 
         pre_activations[i] = W.t()*a_prev + b;
+        // std::cout << pre_activations[i] << std::endl;
 
         // if not output layer --> using relu activation
         if (i!=n_layers-2)
@@ -144,6 +149,10 @@ void neural_net::forward(arma::colvec input)
             activations[i+1] = softmax(pre_activations[i]);
         }
     }
+
+    double loss = 0.1;
+
+    return {activations.back(), loss};
 
 }
     
@@ -206,13 +215,53 @@ void neural_net::backward(arma::colvec target_vec)
 }
 
 
+// double neural_net::cross_entropy_loss(arma::colvec prediction, int class_index)
+// {
 
-void neural_net::train(data_handler dh, int epochs)
+// }
+
+void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double learning_rate)
 {
     
+    std::vector training_data = dh.get_training_data();
+    std::vector validation_data = dh.get_validation_data();
+
+    int data_dim = training_data.at(0).feature_vec.size();
+    int n_training_data = training_data.size();
+
+    arma::colvec input; 
+    arma::colvec target; 
+
+    //this->forward(datapoint_example);
+
+
     for (int i=0; i<epochs; i++)
     {
+
+        arma::Col order = arma::randperm(n_training_data);
+
+        int index;
+        for (int j=0; j<n_training_data; j++)
+        {
+
+            index = order[j];
+
+            input = training_data[index].feature_vec;
+            target = training_data[index].class_vec;
+            
+            this->forward(input, target);
+            arma::colvec prediction = this->get_predictions();
+
+
+
+
+        }
 
     }
 }
 
+
+arma::colvec neural_net::get_predictions()
+{
+    return activations[n_layers-1];
+}
