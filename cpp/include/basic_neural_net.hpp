@@ -19,6 +19,7 @@
 // for delay:
 #include <unistd.h>
 
+#include "data_handler.hpp"
 
 arma::colvec relu(arma::colvec);
 arma::colvec relu_derivative(arma::colvec);
@@ -35,6 +36,8 @@ class neural_net
 
     void forward(arma::colvec input);
     void backward(arma::colvec target);
+
+    void train(data_handler dh, int epochs);
 
     int n_layers;
     std::vector<int> nodes; // nodes in each layer

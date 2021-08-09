@@ -2,6 +2,13 @@
 
 neural_net::neural_net(std::vector<int> nodes, double learning_rate)
 {
+    /*  ____            _                                   _              _   
+       | __ )  __ _ ___(_) ___   _ __   ___ _   _ _ __ __ _| |  _ __   ___| |_ 
+       |  _ \ / _` / __| |/ __| | '_ \ / _ \ | | | '__/ _` | | | '_ \ / _ \ __|
+       | |_) | (_| \__ \ | (__  | | | |  __/ |_| | | | (_| | | | | | |  __/ |_ 
+       |____/ \__,_|___/_|\___| |_| |_|\___|\__,_|_|  \__,_|_| |_| |_|\___|\__|
+    */                                                                         
+
     /*
      * Constructs a neural net object
      * Contains weights for each layer
@@ -144,6 +151,17 @@ void neural_net::forward(arma::colvec input)
 void neural_net::backward(arma::colvec target_vec)
 {
 
+    /*
+      ____             _                          
+     | __ )  __ _  ___| | ___ __  _ __ ___  _ __  
+     |  _ \ / _` |/ __| |/ / '_ \| '__/ _ \| '_ \
+     | |_) | (_| | (__|   <| |_) | | | (_) | |_) |
+     |____/ \__,_|\___|_|\_\ .__/|_|  \___/| .__/ 
+                           |_|             |_|    
+    */
+
+
+
     int L = n_layers -1;    // weight_matrices, biases, pre_activations are L long.
                             // activations is n_layers long, since its first element 
                             // is the input
@@ -156,9 +174,9 @@ void neural_net::backward(arma::colvec target_vec)
     // the input, which represent the very first activation layer. 
 
 
-    //----------------------------------------
+    //-----------------------------------------------------------------------------------------
     // Get gradients:
-    //----------------------------------------
+    //-----------------------------------------------------------------------------------------
     for (int l=L-1; l>=0; l--)      // These are the same values in reverse that l would have
     {                               // if we ran forwards like for (int l=0, l<L; l++) 
         std::cout << l << std::endl;
@@ -175,11 +193,11 @@ void neural_net::backward(arma::colvec target_vec)
         weight_gradients[l] = activations[l]*nabla_zl.t();
         bias_gradients[l] = nabla_zl;
     }
-
+    std::cout << "hroeera" << std::endl;
     
-    //----------------------------------------
+    //-----------------------------------------------------------------------------------------
     // Perform weight update:
-    //----------------------------------------
+    //-----------------------------------------------------------------------------------------
     for (int i=0; i<n_layers-1; i++)
     {
         weight_matrices[i] -= learning_rate * weight_gradients[i];
@@ -189,113 +207,12 @@ void neural_net::backward(arma::colvec target_vec)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* void neural_net::backward(arma::colvec target_vec) */
-/* { */
-/*     // Assumes cross entropy loss and relu activation in the hidden layers */
-/*     // softmax at output layers */
+void neural_net::train(data_handler dh, int epochs)
+{
     
-/*     //arma::mat nabla_Wl */
-/*     arma::mat nabla_Wl; */
-/*     arma::colvec nabla_bl; */
-/*     arma::colvec nabla_zl; */ 
-/*     arma::mat W; */
-    
+    for (int i=0; i<epochs; i++)
+    {
 
-/*     int L = n_layers-1; */     
+    }
+}
 
-/*     // Getting the gradients: */
-/*     int l = L; */
-/*     for (int i=0; i<L; i++) */
-/*     { */
-
-/*         if (l==L) // if output layer: */
-/*         { */
-/*             nabla_zl = activations[L] - target_vec; // seems to be correct */
-
-/*             W = weight_matrices[l]; // seems to be correct */
-/*             std::cout << "----------------W----------------" << std::endl; */
-/*             std::cout << W << std::endl; */
-
-/*             /1* nabla_Wl = activations[l-1] * nabla_zl.t(); *1/ */
-/*             /1* std::cout << nabla_Wl << std::endl; *1/ */
-
-
-
-/*         } else */
-/*         { */
-/*             auto z = pre_activations[l-1]; */
-/*             W = weight_matrices[l]; // seems to be correct */
-
-/*             std::cout << "----------------W----------------" << std::endl; */
-/*             std::cout << W << std::endl; */
-
-
-
-/*             std::cout << "----------------nabla----------------" << std::endl; */
-
-
-/*             nabla_zl = relu_derivative(z) % (W*nabla_zl); // seems correct */
-/*             nabla_Wl = activations[l-1] * nabla_zl.t(); */
-            
-/*             std::cout << nabla_Wl << std::endl; */
-
-
-/*             //nabla_bl = nabla_zl; */
-
-
-
-/*             //weight_matrices[l] += nabla_Wl; */
-/*             //bias_gradients[l] += nabla_bl; */
-
-/*         } */
-
-/*         std::cout << l << std::endl; */
-/*         l -= 1; */
-/*     } */
-/*     std::cout <<"fiasd"  << std::endl; */
-/*     exit(0); */
-
-/*     // Performing the weight/bias update: */
-    
-/* } */

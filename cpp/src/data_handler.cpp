@@ -42,7 +42,7 @@ void data_handler::read_feature_vector(std::string path)
         int image_size = header[2]*header[3];
 
 
-        // iterate over all imgs:
+        // iterate over all imgs and read their data:
         for (int i=0; i<header[1]; i++)
         {
             // make (pointer to) data oject for each image:
