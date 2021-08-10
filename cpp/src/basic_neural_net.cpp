@@ -303,6 +303,7 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
                 n_correct += 1;
             }
 
+
             
             // Backprop:
             this->get_gradient();
