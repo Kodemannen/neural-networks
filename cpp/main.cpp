@@ -38,8 +38,8 @@ int main()
     */
 
 
-    test_nn();
-    //full_test();
+    // test_nn();
+    full_test();
 
     return 0;
 }
@@ -130,30 +130,48 @@ void visualize_feature_vec(arma::colvec feature_vec)
 void test_nn()
 {
 
+    data_handler dh = data_handler();
+    dh.read_feature_vector("data/mnist/train-images-idx3-ubyte");
+    dh.read_feature_labels("data/mnist/train-labels-idx1-ubyte");
+    dh.count_classes();
+    dh.set_labels_properly();  // set enum_label and onehot encoded label vector for all data
+    dh.split_data();
+
+    
+    // // This is how one datapoint is fetched:
+    std::vector<data> training_data = dh.get_training_data();
+    data datapoint_example = training_data.at(2);
+
+    arma::colvec inp;
+    inp = datapoint_example.feature_vec;
+
+
     double learning_rate=0.01;
 
     // Dummy
     // Make sure it's able to correctly classify a single example
-    arma::colvec inp = {1,2,3,4};
-    arma::colvec target = {1,0,0,0};
-    data inp_obj = data(inp.size());
+    inp = {1,2,3,4};
+    arma::colvec target = {0,0,0,1};
 
+    // Make a dummy data object:
+    data inp_obj = data(inp.size());
     inp_obj.feature_vec = inp;
     inp_obj.class_vec = target;
-    inp_obj.enum_label = 2;
+    inp_obj.enum_label = target.index_max();
 
     int n_inp=inp.size();
     int n_outp=target.size();
-    std::vector<int> nodes = {n_inp, 3, 4, n_outp};  
+    std::vector<int> nodes = {n_inp, 128, 64, n_outp};  
 
     neural_net nn = neural_net(nodes);
 
     // std::cout << nn.weight_matrices[0] << std::endl;
     // std::cout << nn.biases[0] << std::endl;
-    for (int i=0; i<100; i++)
+    for (int i=0; i<300; i++)
     {
         auto [prediction, loss] = nn.forward(inp_obj);
-        nn.backward(inp_obj, learning_rate);
+        nn.get_gradient();
+        nn.update_weights(learning_rate);
         // std::cout << nn.weight_matrices[0] << std::endl;
         // std::cout << nn.biases[0] << std::endl;
         
@@ -169,7 +187,7 @@ void test_nn()
     // 
 
 
-    // nn.backward(targ_vec);
+    // nn.get_gradient(targ_vec);
 }
 
 void full_test()
@@ -205,8 +223,8 @@ void full_test()
     //--------------------------------------------------------------------------------------------
     // Hyper-parameters:
     //--------------------------------------------------------------------------------------------
-    std::vector<int> nodes = {n_inp, 4, 4, n_output};      
-    int epochs = 10;
+    std::vector<int> nodes = {n_inp, 10, 10, n_output};      
+    int epochs = 1;
     double learning_rate=0.001;
     int mini_batch_size=100;
 
@@ -233,7 +251,7 @@ void full_test()
     // std::cout << "----------------------------------------" << std::endl;
     // std::cout << nn.activations.back() << std::endl; 
 
-    // nn.backward(targ_vec);
+    // nn.get_gradient(targ_vec);
 
     std::cout << "nice bruv" << std::endl; 
 }

@@ -38,9 +38,14 @@ class neural_net
     neural_net(std::vector<int> nodes);
     ~neural_net();
 
+
+    data current_input_object = data(0);
+
     //std::tuple<arma::colvec, double> forward(arma::colvec input, arma::colvec target);
     std::tuple<arma::colvec, double> forward(data input_obj);
-    void backward(data input_obj, double learning_rate);
+    void get_gradient();
+    void zero_gradient();
+    void update_weights(double learning_rate);
 
     double cross_entropy_loss(arma::colvec prediction, arma::colvec target);
     void train(data_handler dh, int epochs, int mini_batch_size, double learning_rate);

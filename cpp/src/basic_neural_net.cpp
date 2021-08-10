@@ -126,6 +126,8 @@ std::tuple<arma::colvec, double> neural_net::forward(data input_obj)
 
     /* weight_matrices[0].print(); */
     /* activations[0].print(); */
+    this->current_input_object = input_obj;
+
 
     // The 0th activation map is the input layer
     activations[0] = input_obj.feature_vec;
@@ -163,7 +165,7 @@ std::tuple<arma::colvec, double> neural_net::forward(data input_obj)
 }
     
 
-void neural_net::backward(data input_obj, double learning_rate)
+void neural_net::get_gradient()
 {
 
 
@@ -171,6 +173,7 @@ void neural_net::backward(data input_obj, double learning_rate)
                             // activations is n_layers long, since its first element 
                             // is the input
 
+    data input_obj = this->current_input_object;
     arma::colvec target_vec = input_obj.class_vec;
 
     arma::colvec nabla_zl;
@@ -195,16 +198,26 @@ void neural_net::backward(data input_obj, double learning_rate)
             nabla_zl = relu_derivative(pre_activations[l]) % (weight_matrices[l+1]*nabla_zl);
         }
 
-        weight_gradients[l] = activations[l]*nabla_zl.t();
-        bias_gradients[l] = nabla_zl;
+        weight_gradients[l] += activations[l]*nabla_zl.t();
+        bias_gradients[l] += nabla_zl;
     }
+}
 
 
-    
-    //-----------------------------------------------------------------------------------------
-    // Perform weight update:
-    //-----------------------------------------------------------------------------------------
-    
+void neural_net::zero_gradient()
+{
+    for (int i=0; i<n_layers-1; i++)
+    {
+        // weight_matrices[i] -= learning_rate * arma::normalise(weight_gradients[i] );
+        // biases[i] -= learning_rate * arma::normalise(bias_gradients[i]);
+        weight_gradients[i] *= 0;
+        bias_gradients[i] *= 0;
+    }
+}
+
+
+void neural_net::update_weights(double learning_rate)
+{
     for (int i=0; i<n_layers-1; i++)
     {
         // weight_matrices[i] -= learning_rate * arma::normalise(weight_gradients[i] );
@@ -213,7 +226,6 @@ void neural_net::backward(data input_obj, double learning_rate)
         biases[i] -= learning_rate * bias_gradients[i];
     }
 }
-
 
 // double neural_net::cross_entropy_loss(arma::colvec prediction, int class_index)
 // {
@@ -235,7 +247,7 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
 
     arma::colvec input; 
     arma::colvec target; 
-
+    
     //this->forward(datapoint_example);
 
 
@@ -255,22 +267,34 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
         double cost=0;
         int n_correct = 0;
         int index;
-        for (int j=0; j<n_training_data; j++)
+        //for (int j=0; j<n_training_data; j++)
+        for (int j=0; j<10; j++)
         {
 
             index = order[j];
+            index = 0;
+
+
 
             if (j % 10000 == 0)
             {
                 std::cout << j << std::endl;
             }
 
-            // input = training_data[index].feature_vec;
-            // target = training_data[index].class_vec;
             
             data input_obj = training_data[index];
+            input_obj.class_vec = arma::zeros(10);
+            input_obj.class_vec[2] = 1;
+
+
+            // std::cout << input << std::endl;
 
             auto [prediction, loss] = this->forward(input_obj);
+
+            if (j % 1 == 0)
+            {
+                std::cout << prediction << std::endl;
+            }
 
             int choice = prediction.index_max();
 
@@ -281,18 +305,15 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
 
             
             // Backprop:
-            this->backward(input_obj, learning_rate);
+            this->get_gradient();
+            this->update_weights(learning_rate);
+            this->zero_gradient();
 
-
-            std::cout << weight_matrices[0] << std::endl;
 
 
             // Sum up losses into cost:
             cost += loss;
 
-
-            // this->forward(input, target);
-            // arma::colvec prediction = this->get_predictions();
 
 
             // // backprop after mini_batch_size forward steps:
@@ -330,6 +351,8 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
 
     }
     outfile.close();
+    std::cout <<"hore"  << std::endl;
+    exit(0);
 }
 
 
