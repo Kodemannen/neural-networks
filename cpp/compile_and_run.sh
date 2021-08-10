@@ -12,12 +12,12 @@ export DISPLAY=:0
 #g++  main.cpp basicNN.cpp headers/basicNN.h \
 g++ main.cpp src/basic_neural_net.cpp src/data_handler.cpp  src/data.cpp  \
     -I include/ \
-    -o outputfile -std=c++17 -O2 \
+    -o writefile -std=c++17 -O2 \
     -larmadillo \
     -lsfml-graphics -lsfml-window -lsfml-system \
     -lglut -lGLU -lGL
     # -I /usr/include/eigen3/ \
 
 # run:
-./outputfile ;
+./writefile ;
 

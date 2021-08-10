@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <array>
+#include <cmath>
 
 
 #include <iostream>
@@ -21,6 +22,9 @@
 
 #include "data_handler.hpp"
 
+#include "data.hpp"
+#include <tuple>
+
 arma::colvec relu(arma::colvec);
 arma::colvec relu_derivative(arma::colvec);
 
@@ -34,8 +38,9 @@ class neural_net
     neural_net(std::vector<int> nodes);
     ~neural_net();
 
-    std::tuple<arma::colvec, double> forward(arma::colvec input, arma::colvec target);
-    void backward(arma::colvec target);
+    //std::tuple<arma::colvec, double> forward(arma::colvec input, arma::colvec target);
+    std::tuple<arma::colvec, double> forward(data input_obj);
+    void backward(data input_obj, double learning_rate);
 
     double cross_entropy_loss(arma::colvec prediction, arma::colvec target);
     void train(data_handler dh, int epochs, int mini_batch_size, double learning_rate);

@@ -38,9 +38,8 @@ int main()
     */
 
 
-    //test_data_loader();
-    //test_nn();
-    full_test();
+    test_nn();
+    //full_test();
 
     return 0;
 }
@@ -127,74 +126,51 @@ void visualize_feature_vec(arma::colvec feature_vec)
 }
 
 
-void test_data_loader()
+
+void test_nn()
 {
 
-    //std::cout << "successfull compilation compiled successfully" << std::endl; 
+    double learning_rate=0.01;
 
-    //data_handler dh = data_handler();
-    //dh.read_feature_vector("data/mnist/train-images-idx3-ubyte");
-    //// dh is a pointer to a c vector containing data objects
+    // Dummy
+    // Make sure it's able to correctly classify a single example
+    arma::colvec inp = {1,2,3,4};
+    arma::colvec target = {1,0,0,0};
+    data inp_obj = data(inp.size());
 
-    ////auto datap = *dh->at(0);
+    inp_obj.feature_vec = inp;
+    inp_obj.class_vec = target;
+    inp_obj.enum_label = 2;
 
-    //dh.read_feature_labels("data/mnist/train-labels-idx1-ubyte");
-    //dh.count_classes();
-    //dh.set_labels_properly();  // set enum_label and onehot encoded label 
-    //                            // vector for all data
-    //dh.split_data();
+    int n_inp=inp.size();
+    int n_outp=target.size();
+    std::vector<int> nodes = {n_inp, 3, 4, n_outp};  
+
+    neural_net nn = neural_net(nodes);
+
+    // std::cout << nn.weight_matrices[0] << std::endl;
+    // std::cout << nn.biases[0] << std::endl;
+    for (int i=0; i<100; i++)
+    {
+        auto [prediction, loss] = nn.forward(inp_obj);
+        nn.backward(inp_obj, learning_rate);
+        // std::cout << nn.weight_matrices[0] << std::endl;
+        // std::cout << nn.biases[0] << std::endl;
+        
+        if (i % 10 == 0)
+        {
+            std::cout << "----------------------------------------" << std::endl;
+            std::cout << prediction << std::endl;
+        }
+    }
 
 
-    //// Training data should be a vector of pointers to data objects
-    ////auto training_data = dh->get_training_data();
-    
-    //// This is how one datapoint is fetched:
-    //std::vector<data> training_data = dh.get_training_data();
-    //data datapoint = training_data.at(2);
+
+    // 
 
 
-    //arma::colvec inp = datapoint.feature_vec;
-    //arma::colvec targ_vec = datapoint.class_vec;
-
-
-    //int n_inp=inp.size();
-    //int n_output=targ_vec.size();
-
-    
-
-    //std::vector<int> nodes = {n_inp, 9, 120, n_output};      
-
-    //double learning_rate=0.001;
-    // neural_net nn = neural_net(nodes);
-    // nn.forward(inp);
     // nn.backward(targ_vec);
-
-    
-    
-    //visualize_feature_vec(inp);
 }
-
-
-// void test_nn()
-// {
-
-//     double learning_rate=0.001;
-
-//     // Dummy 
-//     int n_inp=4;
-//     int n_outp=4;
-//     std::vector<int> nodes = {n_inp, 20, 30, 4, n_outp};  
-
-//     arma::colvec inp = arma::ones<arma::colvec>(n_inp);
-
-//     arma::colvec targ_vec = arma::zeros<arma::colvec>(n_outp);
-//     targ_vec[1] = 1;
-
-//     neural_net nn = neural_net(nodes);
-
-//     nn.forward(inp);
-//     nn.backward(targ_vec);
-// }
 
 void full_test()
 {
@@ -219,16 +195,18 @@ void full_test()
     arma::colvec inp_example = datapoint_example.feature_vec;
     arma::colvec targ_vec_example = datapoint_example.class_vec;
 
+
     int n_inp=inp_example.size();
     int n_output=targ_vec_example.size();
+
 
     
 
     //--------------------------------------------------------------------------------------------
     // Hyper-parameters:
     //--------------------------------------------------------------------------------------------
-    std::vector<int> nodes = {n_inp, 2, 3, n_output};      
-    int epochs = 1;
+    std::vector<int> nodes = {n_inp, 4, 4, n_output};      
+    int epochs = 10;
     double learning_rate=0.001;
     int mini_batch_size=100;
 
@@ -237,10 +215,23 @@ void full_test()
     // Initialize neural network:
     //--------------------------------------------------------------------------------------------
     neural_net nn = neural_net(nodes);
-    //nn.train(dh, epochs, mini_batch_size, learning_rate);
-    auto [prediction, loss] = nn.forward(inp_example, targ_vec_example);
-    std::cout << prediction << std::endl;
-    std::cout << loss << std::endl;
+
+
+    //--------------------------------------------------------------------------------------------
+    // Train network:
+    //--------------------------------------------------------------------------------------------
+    nn.train(dh, epochs, mini_batch_size, learning_rate);
+    //auto [prediction, loss] = nn.forward(inp_example, targ_vec_example);
+    
+
+
+
+    // auto [prediction, loss] = nn.forward(datapoint_example);
+
+    // prediction[0] = 120;
+    // std::cout << prediction << std::endl;
+    // std::cout << "----------------------------------------" << std::endl;
+    // std::cout << nn.activations.back() << std::endl; 
 
     // nn.backward(targ_vec);
 
