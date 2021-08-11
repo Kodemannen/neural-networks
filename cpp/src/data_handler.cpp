@@ -234,6 +234,49 @@ std::vector<data> data_handler::get_validation_data()
 }
 
 
+void data_handler::create_dummy_data(int n_classes, int n_data_per_class, int input_size)
+{
+    //
+    double f0 = 2;
+    double T = 1;
+    double dt = T / (n_data_per_class-1);
+    arma::colvec t_vec = arma::linspace(0, T, input_size);
 
+    double pi = 3.14159265359;
+    
+    int n_total_data = n_classes*n_data_per_class;
+    double noise_var = 0.4;
+
+    for (int i=0; i<n_total_data; i++)
+    {
+
+        
+        // pick a random class for the data:
+        int class_choice = rand() % n_classes;
+        double freq = (class_choice+1) * f0;
+        double phase = 2*pi / (rand()%1000 + 1);
+
+        data d = data(input_size);
+
+        d.feature_vec = arma::sin(2*pi*freq*t_vec) + phase;
+        d.feature_vec += arma::randn(input_size) * noise_var;
+
+        d.set_enumerated_label(class_choice);
+
+        arma::colvec onehot_class_vec = arma::zeros(n_classes);
+        onehot_class_vec[class_choice] = 1;
+        d.class_vec = onehot_class_vec;
+
+        data_array.push_back(d);
+    }
+
+    std::cout << "Created dummy data" << std::endl;
+}
+
+
+    // data_array = std::vector<data>;
+    // test_data = std::vector<data>;
+    // training_data = std::vector<data>;
+    // validation_data = std::vector<data>;
 
 

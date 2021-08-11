@@ -165,7 +165,7 @@ std::tuple<arma::colvec, double> neural_net::forward(data input_obj)
 }
     
 
-void neural_net::get_gradient()
+void neural_net::accumulate_gradient()
 {
 
 
@@ -208,8 +208,6 @@ void neural_net::zero_gradient()
 {
     for (int i=0; i<n_layers-1; i++)
     {
-        // weight_matrices[i] -= learning_rate * arma::normalise(weight_gradients[i] );
-        // biases[i] -= learning_rate * arma::normalise(bias_gradients[i]);
         weight_gradients[i] *= 0;
         bias_gradients[i] *= 0;
     }
@@ -266,13 +264,12 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
 
         double cost=0;
         int n_correct = 0;
+        double running_acc=0;
         int index;
-        //for (int j=0; j<n_training_data; j++)
-        for (int j=0; j<10; j++)
+        for (int j=0; j<n_training_data; j++)
         {
 
             index = order[j];
-            index = 0;
 
 
 
@@ -283,70 +280,62 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
 
             
             data input_obj = training_data[index];
-            input_obj.class_vec = arma::zeros(10);
-            input_obj.class_vec[2] = 1;
+            // input_obj.class_vec = arma::zeros(10);
+            // input_obj.class_vec[8] = 1;
 
 
             // std::cout << input << std::endl;
 
             auto [prediction, loss] = this->forward(input_obj);
 
-            if (j % 1 == 0)
-            {
-                std::cout << prediction << std::endl;
-            }
-
-            int choice = prediction.index_max();
-
-            if (choice == input_obj.enum_label)
-            {
-                n_correct += 1;
-            }
-
-
-            
-            // Backprop:
-            this->get_gradient();
-            this->update_weights(learning_rate);
-            this->zero_gradient();
-
-
-
             // Sum up losses into cost:
             cost += loss;
 
+            // Check correctness:
+            int choice = prediction.index_max();
+            if (choice == input_obj.enum_label)
+            {
+                n_correct += 1;
+                running_acc += 1;
+            }
+
+            
+            // Add the gradient:
+            this->accumulate_gradient();
 
 
-            // // backprop after mini_batch_size forward steps:
-            // if ( ((j+1) % (mini_batch_size) == 0) )
-            // {
+            // backprop after going through the mini_batch:
+            if ( ((j+1) % (mini_batch_size) == 0) )
+            {
 
-            //     // Take the average:
-            //     cost = cost / float(mini_batch_size);
-                
-            //     // Store cost in file
-            //     outfile << cost << std::endl;
+                this->update_weights(learning_rate);
+                this->zero_gradient();
 
+                // Store cost (avg. loss) in file:
+                cost /= double(mini_batch_size);   
+                running_acc /= double(mini_batch_size); 
 
+                outfile << cost << running_acc<< std::endl;
+                std::cout << running_acc << std::endl;
+                cost = 0;
+                running_acc = 0;
 
-            //     cost = 0;
-
-            // } 
+            } 
         }
 
 
         // check accuracy
         std::cout << n_correct << std::endl;
-        double acc = float(n_correct) / n_training_data;
+        double acc = double(n_correct) / n_training_data;
 
-        cost = cost / float(n_training_data);
+        cost = cost / double(n_training_data);
         std::cout << "epoch: " << i << " cost: "<< cost << " acc: " << acc << std::endl;
         outfile << cost << std::endl;
 
         // // here we do the same with the last residual batch:
         // if (residue_batch_size>0)
         // {
-        //     cost = cost / float(residue_batch_size);
+        //     cost = cost / double(residue_batch_size);
         //     outfile << n_training_data << " " << cost << std::endl;
         // }
 

@@ -43,7 +43,7 @@ class neural_net
 
     //std::tuple<arma::colvec, double> forward(arma::colvec input, arma::colvec target);
     std::tuple<arma::colvec, double> forward(data input_obj);
-    void get_gradient();
+    void accumulate_gradient();
     void zero_gradient();
     void update_weights(double learning_rate);
 

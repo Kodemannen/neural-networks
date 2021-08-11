@@ -24,6 +24,7 @@ void visualize_feature_vec(arma::colvec);
 void test_data_loader();
 void test_nn();
 void full_test();
+void test_with_dummy_data();
 
 
 int main()
@@ -39,7 +40,8 @@ int main()
 
 
     // test_nn();
-    full_test();
+    //full_test();
+    test_with_dummy_data();
 
     return 0;
 }
@@ -170,7 +172,7 @@ void test_nn()
     for (int i=0; i<300; i++)
     {
         auto [prediction, loss] = nn.forward(inp_obj);
-        nn.get_gradient();
+        nn.accumulate_gradient();
         nn.update_weights(learning_rate);
         // std::cout << nn.weight_matrices[0] << std::endl;
         // std::cout << nn.biases[0] << std::endl;
@@ -224,9 +226,79 @@ void full_test()
     // Hyper-parameters:
     //--------------------------------------------------------------------------------------------
     std::vector<int> nodes = {n_inp, 10, 10, n_output};      
-    int epochs = 1;
-    double learning_rate=0.001;
-    int mini_batch_size=100;
+    int epochs = 30;
+
+    double learning_rate=0.01;
+    int mini_batch_size=512;
+
+
+    //--------------------------------------------------------------------------------------------
+    // Initialize neural network:
+    //--------------------------------------------------------------------------------------------
+    neural_net nn = neural_net(nodes);
+
+
+    //--------------------------------------------------------------------------------------------
+    // Train network:
+    //--------------------------------------------------------------------------------------------
+    nn.train(dh, epochs, mini_batch_size, learning_rate);
+    //auto [prediction, loss] = nn.forward(inp_example, targ_vec_example);
+    
+
+
+
+    // auto [prediction, loss] = nn.forward(datapoint_example);
+
+    // prediction[0] = 120;
+    // std::cout << prediction << std::endl;
+    // std::cout << "----------------------------------------" << std::endl;
+    // std::cout << nn.activations.back() << std::endl; 
+
+    // nn.get_gradient(targ_vec);
+
+    std::cout << "nice bruv" << std::endl; 
+}
+
+
+void test_with_dummy_data()
+{
+
+    std::cout << "-------------------Full test---------------------" << std::endl;
+    //
+    //--------------------------------------------------------------------------------------------
+    // Load data into the data handler:
+    //--------------------------------------------------------------------------------------------
+    int n_classes=5;
+    int n_data_per_class = 100;
+    int input_size = 100;
+    
+    data_handler dh = data_handler();
+    dh.create_dummy_data(n_classes, n_data_per_class, input_size);
+
+    dh.split_data();
+
+    
+    // // // This is how one datapoint is fetched:
+    std::vector<data> training_data = dh.get_training_data();
+    data datapoint_example = training_data.at(2);
+
+    arma::colvec inp_example = datapoint_example.feature_vec;
+    arma::colvec targ_vec_example = datapoint_example.class_vec;
+
+
+    int n_inp=inp_example.size();
+    int n_output=targ_vec_example.size();
+
+
+
+    //--------------------------------------------------------------------------------------------
+    // Hyper-parameters:
+    //--------------------------------------------------------------------------------------------
+    std::vector<int> nodes = {n_inp, 10, 10, n_output};      
+    int epochs = 2;
+
+    double learning_rate=0.01;
+    int mini_batch_size=10;
 
 
     //--------------------------------------------------------------------------------------------

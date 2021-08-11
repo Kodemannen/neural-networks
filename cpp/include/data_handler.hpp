@@ -10,6 +10,8 @@
 #include <unordered_set>
 
 
+#include <ctime>    // rand() 
+
 class data_handler
 {
     std::vector<data> data_array; // all of the data pre-split
@@ -35,6 +37,8 @@ class data_handler
     void split_data();
     void count_classes();
     void set_labels_properly();
+
+    void create_dummy_data(int n_classes, int n_data_per_class, int input_size);
 
     uint32_t convert_to_little_endian(const unsigned char * bytes);
 
