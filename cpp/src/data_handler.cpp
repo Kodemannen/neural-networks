@@ -245,7 +245,7 @@ void data_handler::create_dummy_data(int n_classes, int n_data_per_class, int in
     double pi = 3.14159265359;
     
     int n_total_data = n_classes*n_data_per_class;
-    double noise_var = 0.4;
+    double noise_var = 0.9;
 
     for (int i=0; i<n_total_data; i++)
     {

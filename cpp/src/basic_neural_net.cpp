@@ -238,6 +238,7 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
 
     int data_dim = training_data.at(0).feature_vec.size();
     int n_training_data = training_data.size();
+    int n_validation_data = validation_data.size();
 
     int n_mini_batches = n_training_data / mini_batch_size;
     int residue_batch_size = n_training_data % n_mini_batches;  // The last batch may be smaller 
@@ -263,13 +264,11 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
         arma::Col order = arma::randperm(n_training_data);
 
         double cost=0;
-        int n_correct = 0;
         double running_acc=0;
-        int index;
         for (int j=0; j<n_training_data; j++)
         {
 
-            index = order[j];
+            int index = order[j];
 
 
 
@@ -295,7 +294,6 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
             int choice = prediction.index_max();
             if (choice == input_obj.enum_label)
             {
-                n_correct += 1;
                 running_acc += 1;
             }
 
@@ -315,8 +313,8 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
                 cost /= double(mini_batch_size);   
                 running_acc /= double(mini_batch_size); 
 
-                outfile << cost << running_acc<< std::endl;
-                std::cout << running_acc << std::endl;
+                std::cout << "Training: acc: " << running_acc << " cost: " << cost << std::endl;
+
                 cost = 0;
                 running_acc = 0;
 
@@ -324,12 +322,36 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
         }
 
 
-        // check accuracy
-        std::cout << n_correct << std::endl;
-        double acc = double(n_correct) / n_training_data;
+        //-----------------------------------------------------------------------------------------
+        // Validation:
+        //-----------------------------------------------------------------------------------------
+
+        int n_correct_on_validation = 0;
+
+        for (int k=0; k<n_validation_data; k++)
+        {
+            data input_obj = validation_data[k];
+            // std::cout << input << std::endl;
+
+            auto [prediction, loss] = this->forward(input_obj);
+
+
+            // Check correctness:
+            int choice = prediction.index_max();
+            if (choice == input_obj.enum_label)
+            {
+                 n_correct_on_validation += 1;
+            }
+        }
+
+        double validation_acc = n_correct_on_validation / double(n_validation_data);
+        std::cout << "epoch: " << i << " Val acc: " << validation_acc << std::endl;
+
+
+        // check accuracy on validation set:
+        double acc = double(n_correct_on_validation) / n_validation_data;
 
         cost = cost / double(n_training_data);
-        std::cout << "epoch: " << i << " cost: "<< cost << " acc: " << acc << std::endl;
         outfile << cost << std::endl;
 
         // // here we do the same with the last residual batch:
