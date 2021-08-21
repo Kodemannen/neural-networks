@@ -322,9 +322,9 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
         }
 
 
-        //-----------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------
         // Validation:
-        //-----------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------
 
         int n_correct_on_validation = 0;
 
@@ -363,7 +363,7 @@ void neural_net::train(data_handler dh, int epochs, int mini_batch_size, double 
 
     }
     outfile.close();
-    std::cout <<"hore"  << std::endl;
+    std::cout <<"hore ballesd"  << std::endl;
     exit(0);
 }
 
